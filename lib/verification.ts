@@ -88,7 +88,7 @@ export async function verifyCitation(citation: { title: string; doi?: string; ur
   return results;
 }
 
-export async function getOverallVerification(results: VerificationResult[]): { verified: boolean; score: number } {
+export async function getOverallVerification(results: VerificationResult[]): Promise<{ verified: boolean; score: number }> {
   const totalScore = results.reduce((sum, r) => sum + r.score, 0);
   const maxScore = results.length;
   const score = totalScore / maxScore;
