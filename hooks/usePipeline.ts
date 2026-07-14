@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    resumePipeline?: () => void;
+  }
+}
+
 'use client';
 
 import { useState, useCallback } from 'react';
