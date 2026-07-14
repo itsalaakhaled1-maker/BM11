@@ -163,7 +163,7 @@ function extractPartners(text: string): { name: string; country: string; similar
   if (!text || text.trim().length === 0) return [];
 
   // نمط البحث: ### 1. اسم النظام
-  const sectionRegex = /###\s*\d+\.\s*(.+?)(?=(?:###\s*\d+\.|$))/gs;
+  const sectionRegex = /###\s*\d+\.\s*([\s\S]+?)(?=###\s*\d+\.|$)/g;
   let match;
 
   while ((match = sectionRegex.exec(text)) !== null) {
