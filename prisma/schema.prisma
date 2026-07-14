@@ -63,7 +63,7 @@ model ResearchRun {
   user              User      @relation(fields: [userId], references: [id])
   topic             String
   initiativeTitle   String
-  initiativeSummary String
+  initiativeSummary String    @db.Text
   localEntity       String
   status            String    @default("PENDING")
   mode              String    @default("REVIEW_CRITICAL")
@@ -82,10 +82,10 @@ model Stage {
   phase       String
   name        String
   status      String      @default("PENDING")
-  input       String?
-  output      String?
+  input       String?     @db.Text
+  output      String?     @db.Text
   artifacts   Artifact[]
-  hitlReason  String?
+  hitlReason  String?     @db.Text
   startedAt   DateTime?
   completedAt DateTime?
 }
@@ -97,7 +97,7 @@ model Artifact {
   stageId     String?
   stage       Stage?      @relation(fields: [stageId], references: [id])
   type        String
-  content     String
+  content     String      @db.Text
   citations   Citation[]
   verified    Boolean     @default(false)
   createdAt   DateTime    @default(now())
@@ -124,12 +124,12 @@ model Paper {
   runId       String      @unique
   run         ResearchRun @relation(fields: [runId], references: [id])
   title       String
-  abstract    String
-  sections    String
-  citations   String
-  latex       String?
+  abstract    String      @db.Text
+  sections    String      @db.Text
+  citations   String      @db.Text
+  latex       String?     @db.Text
   pdfUrl      String?
-  peerReviews String?
+  peerReviews String?     @db.Text
   qualityScore Float?
   createdAt   DateTime    @default(now())
 }
@@ -141,5 +141,15 @@ model MetaClawSkill {
   pattern     String
   successRate Float
   usageCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+// Analytics Model
+model Analytics {
+  id          String   @id @default(cuid())
+  userId      String?
+  event       String
+  path        String?
+  metadata    String?  @db.Text
   createdAt   DateTime @default(now())
 }
