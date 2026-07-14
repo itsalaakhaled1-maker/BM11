@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("RESEARCHER")
+  runs      ResearchRun[]
+  createdAt DateTime @default(now())
+}
+
+model ResearchRun {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id])
+  topic             String
+  initiativeTitle   String
+  initiativeSummary String
+  localEntity       String
+  status            String    @default("PENDING")
+  mode              String    @default("REVIEW_CRITICAL")
+  stages            Stage[]
+  artifacts         Artifact[]
+  paper             Paper?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Stage {
+  id          String    @id @default(cuid())
+  runId       String
+  run         ResearchRun @relation(fields: [runId], references: [id])
+  number      Int
+  phase       String
+  name        String
+  status      String    @default("PENDING")
+  input       String?
+  output      String?
+  artifacts   Artifact[]
+  hitlReason  String?
+  startedAt   DateTime?
+  completedAt DateTime?
+}
+
+model Artifact {
+  id          String    @id @default(cuid())
+  runId       String
+  run         ResearchRun @relation(fields: [runId], references: [id])
+  stageId     String?
+  stage       Stage?    @relation(fields: [stageId], references: [id])
+  type        String
+  content     String
+  citations   Citation[]
+  verified    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+model Citation {
+  id              String    @id @default(cuid())
+  artifactId      String
+  artifact        Artifact  @relation(fields: [artifactId], references: [id])
+  title           String
+  authors         String
+  year            Int?
+  venue           String?
+  doi             String?
+  url             String?
+  s2Id            String?
+  relevanceScore  Float?
+  verified        Boolean   @default(false)
+  verificationLog String?
+}
+
+model Paper {
+  id          String    @id @default(cuid())
+  runId       String    @unique
+  run         ResearchRun @relation(fields: [runId], references: [id])
+  title       String
+  abstract    String
+  sections    String
+  citations   String
+  latex       String?
+  pdfUrl      String?
+  peerReviews String?
+  qualityScore Float?
+  createdAt   DateTime  @default(now())
+}
+
+model MetaClawSkill {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  pattern     String
+  successRate Float
+  usageCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+}
