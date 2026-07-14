@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// ← أضيف هذا
 declare module "next-auth" {
   interface Session {
     user: {
