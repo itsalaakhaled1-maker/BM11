@@ -2,7 +2,8 @@ import { aiChat } from './ai-service';
 import { searchGoogle } from './search-api';
 import { searchGoogleScholar } from './scholar-api';
 import { PipelineMessage } from '@/types';
-export { getStages } from './stages';
+import { getStages } from './stages';
+export { getStages };
 
 export async function executeStage(stageNumber: number, context: any): Promise<{ output: any; messages: PipelineMessage[] }> {
   const stages = getStages();
