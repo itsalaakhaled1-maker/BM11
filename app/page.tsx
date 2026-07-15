@@ -49,7 +49,7 @@ export default function HomePage() {
               <FlaskConical className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-900">BM11</h1>
+              <h1 className="text-xl font-bold text-slate-900">مُفكِر</h1>
               <p className="text-xs text-slate-500">نظام البحث والمقارنة المعيارية</p>
             </div>
           </div>

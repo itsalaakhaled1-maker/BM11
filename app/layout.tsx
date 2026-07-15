@@ -6,7 +6,7 @@ import Providers from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BM11 - نظام البحث والمقارنة المعيارية",
+  title: "مُفكِر - نظام البحث والمقارنة المعيارية",
   description: "نظام ذكي لإنشاء أبحاث مقارنة معيارية",
 };
 
