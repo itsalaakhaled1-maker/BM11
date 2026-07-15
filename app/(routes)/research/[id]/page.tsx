@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";  // ← جديد
 import { useResearchStore } from "@/hooks/useResearchStore";
 import { getStages } from "@/lib/stages";
 import { shouldPause } from "@/lib/hitl";
@@ -239,6 +240,7 @@ function extractPartners(text: string): { name: string; country: string; similar
 
 export default function ResearchPage() {
   const { id } = useParams();
+  const { data: session } = useSession();  // ← جديد
   const { currentRun, messages, currentStage, isRunning, stageOutputs, setCurrentStage, addMessage, setStageOutput, setIsRunning } = useResearchStore();
   const [activeTab, setActiveTab] = useState<"pipeline" | "output" | "chat">("chat");
   const [chatMessage, setChatMessage] = useState("");
@@ -427,13 +429,38 @@ export default function ResearchPage() {
               {currentRun.mode === "FULL_AUTO" ? "تلقائي" : currentRun.mode === "REVIEW_EACH" ? "مراجعة كل مرحلة" : currentRun.mode === "REVIEW_CRITICAL" ? "مراجعة حرجة" : currentRun.mode === "CHAT_GUIDED" ? "محادثة" : currentRun.mode === "STEP_BY_STEP" ? "خطوة بخطوة" : "يدوي"}
             </span>
           </div>
+          
+          {/* زر تسجيل الدخول / الملف الشخصي — جديد */}
           <div className="flex items-center gap-2">
-            {isRunning ? (
-              <span className="flex items-center gap-1.5 text-amber-600 text-sm bg-amber-50 px-3 py-1 rounded-full"><Clock className="w-4 h-4 animate-spin" />جاري التشغيل...</span>
-            ) : currentStage >= 23 ? (
-              <span className="flex items-center gap-1.5 text-green-600 text-sm bg-green-50 px-3 py-1 rounded-full"><CheckCircle className="w-4 h-4" />مكتمل</span>
+            {session ? (
+              <div className="flex items-center gap-2">
+                <a
+                  href="/profile"
+                  className="flex items-center gap-2 text-sm text-slate-700 hover:text-blue-600 transition"
+                >
+                  {session.user?.image && (
+                    <img
+                      src={session.user.image}
+                      alt=""
+                      className="w-7 h-7 rounded-full border border-slate-200"
+                    />
+                  )}
+                  <span className="hidden sm:inline text-sm">{session.user?.name}</span>
+                </a>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="text-sm text-red-600 hover:text-red-700 px-2 py-1 rounded-lg hover:bg-red-50 transition"
+                >
+                  خروج
+                </button>
+              </div>
             ) : (
-              <span className="flex items-center gap-1.5 text-slate-500 text-sm bg-slate-100 px-3 py-1 rounded-full"><Clock className="w-4 h-4" />في الانتظار</span>
+              <a
+                href="/login"
+                className="flex items-center gap-2 text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg transition"
+              >
+                تسجيل الدخول
+              </a>
             )}
           </div>
         </div>
