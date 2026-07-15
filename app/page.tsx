@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { useResearchStore } from "@/hooks/useResearchStore";
 import { ResearchRun, HitlMode } from "@/types";
 import { BookOpen, FlaskConical, Settings, ArrowLeft, Sparkles, BarChart3, Shield, Users } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const { addRun, setCurrentRun } = useResearchStore();
   const [formData, setFormData] = useState({
     topic: "",
@@ -51,9 +53,39 @@ export default function HomePage() {
               <p className="text-xs text-slate-500">نظام البحث والمقارنة المعيارية</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            <span>مدعوم بالذكاء الاصطناعي</span>
+          
+          {/* زر تسجيل الدخول / الملف الشخصي */}
+          <div className="flex items-center gap-3">
+            {session ? (
+              <div className="flex items-center gap-3">
+                <a
+                  href="/profile"
+                  className="flex items-center gap-2 text-sm text-slate-700 hover:text-blue-600 transition"
+                >
+                  {session.user?.image && (
+                    <img
+                      src={session.user.image}
+                      alt=""
+                      className="w-8 h-8 rounded-full border border-slate-200"
+                    />
+                  )}
+                  <span className="hidden sm:inline">{session.user?.name}</span>
+                </a>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="text-sm text-red-600 hover:text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-50 transition"
+                >
+                  خروج
+                </button>
+              </div>
+            ) : (
+              <a
+                href="/login"
+                className="flex items-center gap-2 text-sm text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition"
+              >
+                تسجيل الدخول
+              </a>
+            )}
           </div>
         </div>
       </header>
