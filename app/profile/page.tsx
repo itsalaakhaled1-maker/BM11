@@ -65,29 +65,6 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* الهيدر */}
-      <div className="bg-white border-b">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-blue-600">
-            BM11
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="px-4 py-2 text-sm text-gray-600 hover:text-blue-600"
-            >
-              الصفحة الرئيسية
-            </Link>
-            <button
-              onClick={() => signOut({ callbackUrl: '/' })}
-              className="px-4 py-2 text-sm text-red-600 border border-red-300 rounded-lg hover:bg-red-50"
-            >
-              تسجيل الخروج
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* بطاقة المستخدم */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
