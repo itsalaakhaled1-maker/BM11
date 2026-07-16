@@ -38,7 +38,7 @@ export default function DashboardPage() {
     }
 
     // Check if user is admin
-    if (session?.user?.email !== "your-admin-email@example.com") {
+    if (session?.user?.email !== "itsalaakhaled1@gmail.com") {
       router.push("/");
       return;
     }
