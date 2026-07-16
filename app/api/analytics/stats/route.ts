@@ -8,21 +8,40 @@ export async function GET(req: NextRequest) {
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     const totalVisits = await prisma.visit.count();
-    const monthVisits = await prisma.visit.count({ where: { createdAt: { gte: startOfMonth } } });
-    const todayVisits = await prisma.visit.count({ where: { createdAt: { gte: startOfDay } } });
-    const uniqueVisits = await prisma.visit.groupBy({ by: ["ip"], _count: { ip: true } });
-    const countries = await prisma.visit.groupBy({ by: ["country"], _count: { country: true } });
+    const monthVisits = await prisma.visit.count({ 
+      where: { createdAt: { gte: startOfMonth } } 
+    });
+    const todayVisits = await prisma.visit.count({ 
+      where: { createdAt: { gte: startOfDay } } 
+    });
+    
+    // Unique IPs
+    const uniqueIPs = await prisma.visit.groupBy({ 
+      by: ["ip"], 
+      _count: { ip: true } 
+    });
+    
+    // Countries — نجمع الصحيحة فقط
+    const countries = await prisma.visit.groupBy({ 
+      by: ["country"], 
+      _count: { country: true } 
+    });
+
     const totalUsers = await prisma.user.count();
-    const newUsers = await prisma.user.count({ where: { createdAt: { gte: startOfMonth } } });
+    const newUsers = await prisma.user.count({ 
+      where: { createdAt: { gte: startOfMonth } } 
+    });
     const totalResearches = await prisma.researchRun.count();
-    const completedResearches = await prisma.researchRun.count({ where: { status: "COMPLETED" } });
+    const completedResearches = await prisma.researchRun.count({ 
+      where: { status: "COMPLETED" } 
+    });
 
     return NextResponse.json({
       totalVisits,
       monthVisits,
       todayVisits,
-      uniqueVisits: uniqueVisits.length,
-      countries,
+      uniqueVisits: uniqueIPs.length,
+      countries: countries.filter(c => c.country && c.country !== "Unknown"),
       totalUsers,
       newUsers,
       totalResearches,
