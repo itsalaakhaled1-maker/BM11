@@ -48,7 +48,7 @@ export default function HomePage() {
             <img 
               src="/images/logo.png" 
               alt="مُفكِر" 
-              className="w-10 h-10 rounded-xl shadow-lg"
+              className="w-14 h-14 rounded-xl shadow-lg"
             />
             <div>
               <p className="text-xs text-slate-500">نظام البحث والمقارنة المعيارية</p>
