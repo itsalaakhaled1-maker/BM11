@@ -28,7 +28,11 @@ export async function GET(req: NextRequest) {
       totalResearches,
       completedResearches,
     });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });
+  } catch (error: any) {
+    console.error("API Error:", error);
+    return NextResponse.json(
+      { error: error.message || "Unknown error" },
+      { status: 500 }
+    );
   }
 }
