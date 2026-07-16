@@ -425,7 +425,7 @@ export default function ResearchPage() {
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
             <img 
-              src="/images/LOGO.png" 
+              src="/images/logo.png" 
               alt="مُفكِر" 
               className="w-8 h-8 rounded-lg"
             />
