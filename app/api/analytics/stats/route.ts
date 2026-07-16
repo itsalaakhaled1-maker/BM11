@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       _count: { ip: true } 
     });
     
-    // Countries — نجمع الصحيحة فقط
+    // Countries — نعرض كل الدول حتى Unknown
     const countries = await prisma.visit.groupBy({ 
       by: ["country"], 
       _count: { country: true } 
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
       monthVisits,
       todayVisits,
       uniqueVisits: uniqueIPs.length,
-      countries: countries.filter(c => c.country && c.country !== "Unknown"),
+      countries: countries, // ← نعرض كل الدول
       totalUsers,
       newUsers,
       totalResearches,

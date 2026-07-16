@@ -2,14 +2,46 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { randomUUID } from "crypto";
 
-// خريطة بسيطة لـ IP ranges → دول (للـ private IPs)
-function getCountryFromIP(ip: string): string {
-  if (ip === "127.0.0.1" || ip.startsWith("192.168.") || ip.startsWith("10.") || ip.startsWith("172.")) {
-    return "Local Network";
-  }
-  // نستخدم خدمة ipapi.co (مجانية 1000 request/يوم)
-  return "Unknown";
-}
+// خريطة كود الدولة → اسم الدولة
+const countryNames: Record<string, string> = {
+  "EG": "مصر",
+  "SA": "السعودية",
+  "AE": "الإمارات",
+  "KW": "الكويت",
+  "QA": "قطر",
+  "BH": "البحرين",
+  "OM": "عمان",
+  "JO": "الأردن",
+  "LB": "لبنان",
+  "IQ": "العراق",
+  "DZ": "الجزائر",
+  "MA": "المغرب",
+  "TN": "تونس",
+  "LY": "ليبيا",
+  "SD": "السودان",
+  "SY": "سوريا",
+  "YE": "اليمن",
+  "PS": "فلسطين",
+  "US": "الولايات المتحدة",
+  "GB": "المملكة المتحدة",
+  "DE": "ألمانيا",
+  "FR": "فرنسا",
+  "TR": "تركيا",
+  "IN": "الهند",
+  "PK": "باكستان",
+  "BD": "بنجلاديش",
+  "ID": "إندونيسيا",
+  "MY": "ماليزيا",
+  "NG": "نيجيريا",
+  "ZA": "جنوب أفريقيا",
+  "BR": "البرازيل",
+  "CA": "كندا",
+  "AU": "أستراليا",
+  "RU": "روسيا",
+  "CN": "الصين",
+  "JP": "اليابان",
+  "KR": "كوريا الجنوبية",
+};
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,22 +55,14 @@ export async function POST(req: NextRequest) {
                realIP ? realIP.trim() : 
                req.headers.get("x-vercel-ip") || "unknown";
     
-    // جيب الدولة من خدمة خارجية
+    // جيب الدولة من Vercel أولاً (أفضل)
+    const countryCode = req.headers.get("x-vercel-ip-country") || 
+                        req.headers.get("cf-ipcountry");
+    
+    // حوّل الكود لاسم الدولة
     let country = "Unknown";
-    try {
-      // نجرب نجيب الدولة من ipapi.co
-      const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, { 
-        next: { revalidate: 3600 } 
-      });
-      if (geoRes.ok) {
-        const geoData = await geoRes.json();
-        country = geoData.country_name || geoData.country || "Unknown";
-      }
-    } catch {
-      // لو فشلت الخدمة، نستخدم headers
-      country = req.headers.get("x-vercel-ip-country") || 
-                req.headers.get("cf-ipcountry") || 
-                "Unknown";
+    if (countryCode) {
+      country = countryNames[countryCode] || countryCode;
     }
 
     await prisma.visit.create({
