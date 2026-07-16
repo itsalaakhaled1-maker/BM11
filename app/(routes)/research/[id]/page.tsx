@@ -424,6 +424,11 @@ export default function ResearchPage() {
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600">
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
+                        <img 
+              src="/images/logo.png" 
+              alt="مُفكِر" 
+              className="w-8 h-8 rounded-lg"
+            />
             <h1 className="text-base lg:text-lg font-bold text-slate-900 truncate max-w-[200px] lg:max-w-md">{currentRun.initiativeTitle}</h1>
             <span className="hidden sm:inline-flex px-2.5 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
               {currentRun.mode === "FULL_AUTO" ? "تلقائي" : currentRun.mode === "REVIEW_EACH" ? "مراجعة كل مرحلة" : currentRun.mode === "REVIEW_CRITICAL" ? "مراجعة حرجة" : currentRun.mode === "CHAT_GUIDED" ? "محادثة" : currentRun.mode === "STEP_BY_STEP" ? "خطوة بخطوة" : "يدوي"}
