@@ -424,7 +424,7 @@ export default function ResearchPage() {
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600">
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-                        <img 
+            <img 
               src="/images/logo.png" 
               alt="مُفكِر" 
               className="w-8 h-8 rounded-lg"
