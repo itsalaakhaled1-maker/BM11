@@ -144,7 +144,7 @@ model MetaClawSkill {
   createdAt   DateTime @default(now())
 }
 
-// Analytics Model
+// Analytics Models
 model Analytics {
   id          String   @id @default(cuid())
   userId      String?
@@ -152,4 +152,25 @@ model Analytics {
   path        String?
   metadata    String?  @db.Text
   createdAt   DateTime @default(now())
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  ip        String
+  country   String?
+  page      String
+  createdAt DateTime @default(now())
+}
+
+model DashboardStats {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  totalUsers  Int      @default(0)
+  newUsers    Int      @default(0)
+  activeUsers Int      @default(0)
+  totalResearches Int  @default(0)
+  completedResearches Int @default(0)
+  totalRevenue Float   @default(0)
+  aiCost      Float    @default(0)
+  aiRequests  Int      @default(0)
 }

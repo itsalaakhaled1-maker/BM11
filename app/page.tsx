@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useResearchStore } from "@/hooks/useResearchStore";
 import { ResearchRun, HitlMode } from "@/types";
-import { BookOpen, FlaskConical, Settings, ArrowLeft, Sparkles, BarChart3, Shield, Users } from "lucide-react";
+import { BookOpen, Settings, ArrowLeft, BarChart3, Shield, Users } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -45,11 +45,12 @@ export default function HomePage() {
       <header className="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-700/20">
-              <FlaskConical className="w-6 h-6 text-white" />
-            </div>
+            <img 
+              src="/images/logo.png" 
+              alt="مُفكِر" 
+              className="w-10 h-10 rounded-xl shadow-lg"
+            />
             <div>
-              <h1 className="text-xl font-bold text-slate-900">مُفكِر</h1>
               <p className="text-xs text-slate-500">نظام البحث والمقارنة المعيارية</p>
             </div>
           </div>

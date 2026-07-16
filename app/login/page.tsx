@@ -1,16 +1,16 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { BookOpen } from "lucide-react";
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4 text-center">
-        <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-600/30">
-          <BookOpen className="w-8 h-8 text-white" />
-        </div>
-        <h1 className="text-3xl font-bold mb-2 text-white">نظام مُفكِر</h1>
+        <img 
+          src="/images/logo.png" 
+          alt="مُفكِر" 
+          className="w-16 h-16 rounded-2xl mx-auto mb-6 shadow-lg"
+        />
         <p className="text-blue-200 mb-8">نظام البحث والمقارنة المعيارية</p>
         
         <button
