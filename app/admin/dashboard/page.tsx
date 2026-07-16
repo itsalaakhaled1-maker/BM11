@@ -9,7 +9,6 @@ import {
   TrendingUp,
   Eye,
   Globe,
-  DollarSign,
   Activity,
 } from "lucide-react";
 
@@ -32,18 +31,21 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (status === "loading") return;
+
     if (status === "unauthenticated") {
       router.push("/login");
       return;
     }
 
-    // Check if user is admin
-    if (session?.user?.email !== "itsalaakhaled1@gmail.com") {
+    if (status === "authenticated" && session?.user?.email !== "itsalaakhaled1@gmail.com") {
       router.push("/");
       return;
     }
 
-    fetchStats();
+    if (status === "authenticated") {
+      fetchStats();
+    }
   }, [status, session, router]);
 
   const fetchStats = async () => {
@@ -58,7 +60,7 @@ export default function DashboardPage() {
     }
   };
 
-  if (loading) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -127,7 +129,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50" dir="rtl">
-      {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -147,7 +148,6 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* Stats Grid */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">
           إحصائيات النظام
@@ -172,7 +172,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Countries */}
         <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
           <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
             <Globe className="w-5 h-5 text-blue-600" />
