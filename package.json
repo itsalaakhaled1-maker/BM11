@@ -43,6 +43,7 @@
     "@radix-ui/react-tooltip": "^1.0.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.0",
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "docx": "^9.7.1",

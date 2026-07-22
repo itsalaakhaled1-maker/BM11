@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import Script from "next/script";
 import Footer from "@/components/shared/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,6 +53,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Analytics />  {/* ✅ أضف هذا السطر */}
         </Providers>
       </body>
     </html>
