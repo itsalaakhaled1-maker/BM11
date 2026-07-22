@@ -3,12 +3,26 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import Script from "next/script";
+import Footer from "@/components/shared/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "مُفكِر - نظام البحث والمقارنة المعيارية",
   description: "نظام ذكي لإنشاء أبحاث مقارنة معيارية",
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
+  openGraph: {
+    title: "مُفكِر - نظام البحث والمقارنة المعيارية",
+    description: "نظام ذكي لإنشاء أبحاث مقارنة معيارية — من الفكرة إلى ورقة أكاديمية جاهزة للنشر!",
+    url: "https://www.mufkir.com",
+    siteName: "مُفكِر",
+    locale: "ar_AR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +46,12 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Providers>
-          {children}
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>
